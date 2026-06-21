@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>爱游戏 · 信息卡片</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #fff2e0 0%, #ffe3c4 40%, #fed9b0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    .card-grid {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .card-item {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(2px);
+      border-radius: 32px;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 12px 28px rgba(180, 100, 30, 0.08), 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 245, 235, 0.6);
+    }
+
+    .card-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px rgba(160, 80, 20, 0.12);
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 40px;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      border: 1px solid rgba(255, 230, 210, 0.5);
+      box-shadow: 0 8px 24px rgba(200, 120, 40, 0.06);
+    }
+
+    .hero-card h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #4a2c1a;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(to right, #8b5a3a, #b47c56);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-card p {
+      font-size: 1.15rem;
+      color: #5d3f2b;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: 0 auto 0.5rem;
+    }
+
+    .hero-highlight {
+      display: inline-block;
+      margin-top: 0.6rem;
+      padding: 0.4rem 1.2rem;
+      background: #e6c7ab;
+      color: #3f2819;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      letter-spacing: 0.3px;
+      border: 1px solid #dbb594;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-title span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: #f5dcc8;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      color: #553b26;
+    }
+
+    .card-title h2 {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: #3d281b;
+      border-bottom: 2px solid #efd6c0;
+      padding-bottom: 4px;
+    }
+
+    .card-content {
+      color: #3e2b1d;
+      line-height: 1.75;
+      font-size: 1rem;
+    }
+
+    .card-content p {
+      margin-bottom: 1rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 0.9rem;
+      padding-left: 4px;
+    }
+
+    .feature-list li::before {
+      content: "✦";
+      color: #b6845c;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .scene-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 16px;
+      margin: 0.5rem 0 0.2rem;
+    }
+
+    .scene-tag {
+      background: #f3e3d5;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      color: #452f1f;
+      border: 1px solid #e5cbb7;
+    }
+
+    .faq-compact {
+      background: #fbf3eb;
+      border-radius: 24px;
+      padding: 1.3rem 1.8rem;
+      margin-top: 0.7rem;
+    }
+
+    .faq-item {
+      padding: 0.6rem 0;
+      border-bottom: 1px dashed #ddc3ae;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-weight: 600;
+      color: #452f1f;
+    }
+
+    .faq-a {
+      color: #5e4532;
+      margin-top: 0.25rem;
+      font-size: 0.95rem;
+    }
+
+    .btn-link {
+      display: inline-block;
+      background: #cda67e;
+      color: #2b1c11;
+      text-decoration: none;
+      padding: 0.6rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border: 1px solid #bd9570;
+      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 2px 6px rgba(150, 80, 20, 0.05);
+    }
+
+    .btn-link:hover {
+      background: #bf9470;
+      transform: scale(1.01);
+      border-color: #aa7f5b;
+    }
+
+    .inline-link {
+      color: #7a563a;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      text-decoration-color: #c9a98b;
+      font-weight: 500;
+    }
+
+    .inline-link:hover {
+      color: #4c311e;
+      text-decoration-color: #8d684b;
+    }
+
+    .natural-sentence {
+      background: #f6ede4;
+      border-radius: 28px;
+      padding: 1.5rem 2rem;
+      margin: 0.8rem 0;
+      font-size: 1rem;
+      line-height: 1.7;
+      border: 1px solid #e2cebc;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #6b4f3a;
+      font-size: 0.9rem;
+      border-top: 1px solid #e1cbbe;
+      padding-top: 2rem;
+      margin-top: 1.5rem;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    @media (min-width: 700px) {
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-card {
+        grid-column: 1 / -1;
+      }
+      .natural-sentence {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-card h1 {
+        font-size: 2rem;
+      }
+      .card-item {
+        padding: 1.6rem 1.2rem;
+      }
+      .hero-card {
+        padding: 2rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="card-grid">
+
+  <!-- hero 主视觉卡片 -->
+  <div class="hero-card">
+    <h1>爱游戏 · 温柔陪伴</h1>
+    <p>当休闲时光与轻巧爱好相遇，一方小小的屏幕也能装下丰盈的趣味。这里不谈激烈竞技，只关心那些让人放松、微笑、沉浸片刻的互动内容。</p>
+    <div class="hero-highlight">温和 · 自在 · 有温度</div>
+  </div>
+
+  <!-- 用途卡片：爱游戏的主题场景 -->
+  <div class="card-item">
+    <div class="card-title">
+      <span>📘</span>
+      <h2>主题角落</h2>
+    </div>
+    <div class="card-content">
+      <p>从解谜的细碎思考到模拟经营的恬淡节奏，<a href="https://i-game-index.com.cn" class="inline-link">爱游戏</a> 关注的是那些不喧哗却耐人寻味的作品。你可以在午后的窗边慢慢探索一片像素森林，也可以在睡前花十分钟整理自己的小小花园。</p>
+      <p>我们相信，好的游戏体验不一定要肾上腺素飙升，安静地完成一个拼图、搭配一组色彩、养育一只虚拟生物，同样值得被认真对待。</p>
+      <div class="scene-tags">
+        <span class="scene-tag">🌱 治愈养成</span>
+        <span class="scene-tag">🧩 轻量解谜</span>
+        <span class="scene-tag">🎨 创意工坊</span>
+        <span class="scene-tag">📖 互动叙事</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 适合人群卡片 -->
+  <div class="card-item">
+    <div class="card-title">
+      <span>👥</span>
+      <h2>适合谁</h2>
+    </div>
+    <div class="card-content">
+      <ul class="feature-list">
+        <li>想用碎片时间做点有趣事情的朋友</li>
+        <li>对治愈、文艺、慢节奏内容有好感的探索者</li>
+        <li>偶尔想从信息流中抽离，进入一个微小却完整的虚拟世界</li>
+        <li>不太熟悉重度操作，但依然享受交互乐趣的玩家</li>
+      </ul>
+      <p style="margin-top: 1rem; font-size: 0.95rem; color: #4e3724;">每个人都能在 <a href="https://i-game-index.com.cn" class="inline-link">爱游戏</a> 找到与自己节奏合拍的那一款。</p>
+    </div>
+  </div>
+
+  <!-- 特点卡片 -->
+  <div class="card-item">
+    <div class="card-title">
+      <span>✨</span>
+      <h2>细节与温度</h2>
+    </div>
+    <div class="card-content">
+      <p>这里的推荐更注重气质而非参数。界面清爽、音乐舒缓、交互反馈细腻——这些才是我们筛选时的隐形标尺。每一款收录的内容都经过体验，确保它传递的是善意与愉悦。</p>
+      <p>没有排行榜，没有战力数值，只有一份份用心整理的「适合慢慢玩」的列表。偶尔更新，但从不催促。</p>
+    </div>
+  </div>
+
+  <!-- 自然链接段落 + FAQ 摘要 (合并为一张卡片) -->
+  <div class="card-item natural-sentence">
+    <div class="card-title" style="margin-bottom: 0.8rem;">
+      <span>💬</span>
+      <h2 style="font-size: 1.4rem;">一点日常</h2>
+    </div>
+    <p>如果你也喜欢在下班后花二十分钟经营一座虚拟咖啡馆，或者想找一款画面像绘本一样的解谜小品，不妨来 <a href="https://i-game-index.com.cn" class="inline-link">爱游戏</a> 随意看看。我们整理了一些安静又迷人的选择，不打扰，只陪伴。</p>
+    
+    <div class="faq-compact">
+      <div class="faq-item">
+        <div class="faq-q">❓ 内容会频繁更新吗？</div>
+        <div class="faq-a">不会太频繁，每篇推荐都经过体验和斟酌，宁少勿滥。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">❓ 适合完全不玩游戏的人吗？</div>
+        <div class="faq-a">很多推荐从零开始即可上手，操作简单，门槛很低。</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">❓ 有没有社区或讨论区？</div>
+        <div class="faq-a">目前以推荐和索引为主，未来或许会有安静的分享角落。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 温和提示卡片 -->
+  <div class="card-item" style="grid-column: 1 / -1; max-width: 700px; margin: 0 auto; width: 100%;">
+    <div class="card-content" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+      <span style="font-size: 0.95rem; color: #4f3825;">希望这些内容能成为你放松时刻的一个小站。</span>
+      <a href="https://i-game-index.com.cn" class="btn-link">爱游戏</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  <span>温暖 · 克制 · 不打扰</span>
+</div>
+
+</body>
+</html>
